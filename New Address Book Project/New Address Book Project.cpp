@@ -1,6 +1,6 @@
 #include <iostream>
 #include "addressBookType.h"
-//testing for addressBookType
+
 int main() {
     addressBookType myAddressBook(500);
     myAddressBook.initEntry();
@@ -8,7 +8,6 @@ int main() {
     std::string testLastName = "Smith";
     int testMonth = 3;
     std::string testRelationship = "Friend";
-
 
     std::cout << "Last Name: " << testLastName << std::endl;
     myAddressBook.findPerson(testLastName);

@@ -1,9 +1,6 @@
 #pragma once
-#include "addressBookType.h"
 #include "extPersonType.h"
-#include "personType.h"
-#include "dateType.h"
-#include <string> 
+#include <string>
 
 class addressBookType {
 private:
@@ -13,12 +10,11 @@ private:
 
 public:
     addressBookType(int maxSize = 500);
-
     void initEntry();
-    void addEntry(extPersonType newEntry);
-    void findPerson(const std::string& lastName);
-    void findBirthdays(int month);
-    void findRelations(const std::string& relationship);
+    void addEntry(const extPersonType& newEntry);
+    void findPerson(const std::string& lastName) const;
+    void findBirthdays(int month) const;
+    void findRelations(const std::string& relationship) const;
     void sortEntries();
-    void print();
+    void print() const;
 };

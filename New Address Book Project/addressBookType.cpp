@@ -1,16 +1,8 @@
 #include "addressBookType.h"
-#include "extPersonType.h"
-#include "personType.h"
-#include "dateType.h"
 #include <iostream>
 #include <fstream>
-#include <string>
 
-addressBookType::addressBookType(int size) {
-    maxSize = size;
-    length = 0;
-}
-
+addressBookType::addressBookType(int size) : maxSize(size), length(0) {}
 
 void addressBookType::initEntry() {
     std::ifstream inFile("AddressBookData.txt");
@@ -18,15 +10,12 @@ void addressBookType::initEntry() {
     std::string firstName, lastName, address, city, state, phoneNumber, relationship;
     int month, day, year, zip;
 
-    while (inFile >> firstName >> lastName) {
-        inFile >> month >> day >> year;
+    while (inFile >> firstName >> lastName >> month >> day >> year) {
         inFile.ignore();
-
         std::getline(inFile, address);
         std::getline(inFile, city);
         inFile >> state >> zip;
         inFile.ignore();
-
         std::getline(inFile, phoneNumber);
         std::getline(inFile, relationship);
 
@@ -37,14 +26,14 @@ void addressBookType::initEntry() {
     inFile.close();
 }
 
-void addressBookType::addEntry(extPersonType newEntry) {
+void addressBookType::addEntry(const extPersonType& newEntry) {
     if (length < maxSize) {
         addressList[length] = newEntry;
         length++;
     }
 }
 
-void addressBookType::findPerson(const std::string& lastName) {
+void addressBookType::findPerson(const std::string& lastName) const {
     for (int i = 0; i < length; i++) {
         if (addressList[i].getLastName() == lastName) {
             addressList[i].print();
@@ -54,7 +43,7 @@ void addressBookType::findPerson(const std::string& lastName) {
     std::cout << "Not found." << std::endl;
 }
 
-void addressBookType::findBirthdays(int month) {
+void addressBookType::findBirthdays(int month) const {
     bool found = false;
     for (int i = 0; i < length; i++) {
         if (addressList[i].getBirthMonth() == month) {
@@ -62,16 +51,23 @@ void addressBookType::findBirthdays(int month) {
             found = true;
         }
     }
+    if (!found) {
+        std::cout << "No birthdays found in this month." << std::endl;
+    }
+}
 
-    void addressBookType::findRelations(const std::string & relationship) {
-        bool found = false;
-        for (int i = 0; i < length; i++) {
-            if (addressList[i].getRelationship() == relationship) {
-                addressList[i].print();
-                found = true;
-            }
+void addressBookType::findRelations(const std::string& relationship) const {
+    bool found = false;
+    for (int i = 0; i < length; i++) {
+        if (addressList[i].getRelationship() == relationship) {
+            addressList[i].print();
+            found = true;
         }
     }
+    if (!found) {
+        std::cout << "No entries found with this relationship." << std::endl;
+    }
+}
 
 void addressBookType::sortEntries() {
     for (int current = 1; current < length; current++) {
@@ -86,7 +82,7 @@ void addressBookType::sortEntries() {
     }
 }
 
-void addressBookType::print() {
+void addressBookType::print() const {
     for (int i = 0; i < length; i++) {
         addressList[i].print();
     }
